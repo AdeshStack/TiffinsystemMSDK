@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "adeshprime17/userservice25:0.0.1"
+        IMAGE_NAME = 'yourdockerhubusername/userservice'
     }
 
     stages {
@@ -16,23 +16,25 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 echo 'Building the project using Maven...'
-                bat '.\\mvnw.cmd clean package -DskipTests'
+                dir('userservice') {
+                    bat 'mvnw.cmd clean package -DskipTests'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                bat "docker build -t %IMAGE_NAME% ."
+                bat 'docker build -t %IMAGE_NAME% ./userservice'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
-                    bat "docker push %IMAGE_NAME%"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat 'docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%'
+                    bat 'docker push %IMAGE_NAME%'
                 }
             }
         }
@@ -40,8 +42,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Deploying to Kubernetes...'
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl apply -f service.yaml'
+                bat 'kubectl apply -f ./userservice/k8s/deployment.yaml'
+                bat 'kubectl apply -f ./userservice/k8s/service.yaml'
             }
         }
     }
