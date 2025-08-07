@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'adeshprime17/userservice25'
+        IMAGE_TAG = '0.0.1'
     }
 
     stages {
@@ -25,7 +26,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                bat 'docker build -t %IMAGE_NAME%:0.0.1 ./userservice'
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ./userservice"
             }
         }
 
@@ -33,11 +34,11 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat '''
-                echo Logging into Docker Hub...
-                docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
-                docker push adeshprime17/userservice25:0.0.1
-                    '''
+                    bat """
+                        echo Logging into Docker Hub...
+                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
+                        docker push %IMAGE_NAME%:%IMAGE_TAG%
+                    """
                 }
             }
         }
