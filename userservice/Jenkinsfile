@@ -56,7 +56,7 @@ pipeline {
             steps {
                 echo 'Deploying to Kubernetes...'
                 bat 'kubectl apply -f ./k8s/userservice-deployment.yaml'
-                bat 'kubectl apply -f ./k8/suserservice-service.yaml'
+                bat 'kubectl apply -f ./k8s/suserservice-service.yaml'
             }
         }
     }
