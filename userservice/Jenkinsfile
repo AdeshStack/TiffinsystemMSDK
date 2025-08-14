@@ -43,6 +43,15 @@ pipeline {
             }
         }
 
+           stage('Start Minikube') {
+            steps {
+                echo 'Starting Minikube...'
+                bat 'minikube start'
+                // Ensure kubectl uses Minikube's context
+                bat 'kubectl config use-context minikube'
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Deploying to Kubernetes...'
