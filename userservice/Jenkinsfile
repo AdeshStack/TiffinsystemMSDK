@@ -59,7 +59,7 @@ pipeline {
     //             bat 'kubectl apply -f ./k8s/userservice-service.yaml'
     //         }
     //     }
-    // }
+     }
 
     post {
         always {
