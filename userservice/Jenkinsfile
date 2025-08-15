@@ -46,6 +46,13 @@ pipeline {
 
     }
 
+    stage(){
+
+        steps{
+            echo "successfully deployed the changes in docker hug registry"
+        }
+    }
+
         // stage('Start Minikube') {
         //     steps {
         //         echo 'Starting Minikube...'
