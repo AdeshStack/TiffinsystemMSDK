@@ -46,7 +46,7 @@ pipeline {
 
     }
 
-    stage(){
+    stage('Depolyment status'){
 
         steps{
             echo "successfully deployed the changes in docker hug registry"
