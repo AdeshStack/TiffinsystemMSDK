@@ -44,13 +44,15 @@ pipeline {
             }
         }
 
-        stage('Start Minikube') {
-            steps {
-                echo 'Starting Minikube...'
-                bat 'minikube start'
-                bat 'kubectl config use-context minikube'
-            }
-        }
+    }
+
+        // stage('Start Minikube') {
+        //     steps {
+        //         echo 'Starting Minikube...'
+        //         bat 'minikube start'
+        //         bat 'kubectl config use-context minikube'
+        //     }
+        // }
 
     //     stage('Deploy to Kubernetes') {
     //         steps {
@@ -59,7 +61,7 @@ pipeline {
     //             bat 'kubectl apply -f ./k8s/userservice-service.yaml'
     //         }
     //     }
-     }
+    
 
     post {
         always {
