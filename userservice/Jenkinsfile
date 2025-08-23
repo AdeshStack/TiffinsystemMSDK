@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'adeshprime17/userservice25'
         IMAGE_TAG = '0.0.1'
-        // KUBECONFIG = 'C:\\ProgramData\\Jenkins\\.kube\\config'  // Path for Jenkins to access kubeconfig
+     
     }
 
     stages {
