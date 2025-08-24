@@ -1,11 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'adeshprime17/userservice25'
-        IMAGE_TAG = "0.0.${BUILD_NUMBER}"
-    }
-
+  environment { IMAGE_NAME = 'adeshprime17/userservice25' IMAGE_TAG = '0.0.1' }
     stages {
         stage('Checkout') {
             steps {
