@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: userservice
+    name: productservice
 
   datasource:
-    url: jdbc:mysql://localhost:3306/user # use to connect mysql from container to your local mysql
+    url: jdbc:mysql://host.docker.internal:3306/product # use to connect mysql from container to your local mysql
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
