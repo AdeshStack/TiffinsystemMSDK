@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "adeshprime17/userservice25:0.0.1"
+        IMAGE_NAME = 'adeshprime17/userservice25'
+        IMAGE_TAG = '0.0.1'
+     
     }
 
     stages {
@@ -16,33 +18,72 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 echo 'Building the project using Maven...'
-                sh './mvnw clean package -DskipTests'
+                dir('userservice') {
+                    bat 'mvnw.cmd clean package -DskipTests'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ./userservice"
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'adeshmahto86@gmail.com', passwordVariable: 'AdeshDocker25@')]) {
-                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-                    sh "docker push ${IMAGE_NAME}"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat '''
+                        echo Logging into Docker Hub...
+                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
+                        docker push %IMAGE_NAME%:%IMAGE_TAG%
+                    '''
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo 'Deploying to Kubernetes...'
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl apply -f service.yaml'
-            }
+         stage('Depolyment status'){
+
+        steps{
+            echo "successfully deployed the changes in docker hug registry"
+        }
+    }
+
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         echo 'Deploying to Kubernetes...'
+        //         bat 'kubectl apply -f ./k8s/userservice-deployment.yaml'
+        //         bat 'kubectl apply -f ./k8s/userservice-service.yaml'
+        //         bat 'kubectl rollout status deployment/userservice-deployment'
+        //     }
+        // }
+
+    }
+
+   
+
+        // stage('Start Minikube') {
+        //     steps {
+        //         echo 'Starting Minikube...'
+        //         bat 'minikube start'
+        //         bat 'kubectl config use-context minikube'
+        //     }
+        // }
+
+    //     stage('Deploy to Kubernetes') {
+    //         steps {
+    //             echo 'Deploying to Kubernetes...'
+    //             bat 'kubectl apply -f ./k8s/userservice-deployment.yaml'
+    //             bat 'kubectl apply -f ./k8s/userservice-service.yaml'
+    //         }
+    //     }
+    
+
+    post {
+        always {
+            echo 'Pipeline finished.'
         }
     }
 }
