@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo 'Building the project using Maven...'
                 dir('productservice') {
-                    bat 'mvn.cmd clean package -DskipTests'
+                    bat 'mvnw.cmd clean package -DskipTests'
                 }
             }
         }
