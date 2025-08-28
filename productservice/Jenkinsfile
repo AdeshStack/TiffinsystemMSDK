@@ -1,28 +1,33 @@
-pipeline{
- agent any
- environment{
-    IMAGE_NAME='adeshprime17/productservice25'
-    IMAGE_TAG='0.0.1'
- }
+pipeline {
+    agent any
+    
+    environment {
+        IMAGE_NAME = 'adeshprime17/productservice25'
+        IMAGE_TAG = '0.0.1'
+    }
 
- stages{
-     stage('Checkout'){
-        echo 'Checking out source code...'
-        checkout scm
-     }
-
-     stage('Build with Maven'){
-        echo 'Building the project using maven'
-        dir('productservice'){
-
-            bat 'mvn.cmd clean package -DskipTests'
+    stages {
+        stage('Checkout') { 
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
         }
-     }
-     stage('Build the image'){
-        echo 'Building the image...'
-        bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ./productservice"
-     }
 
- }
+        stage('Build with Maven') {
+            steps {
+                echo 'Building the project using Maven...'
+                dir('productservice') {
+                    bat 'mvn.cmd clean package -DskipTests'
+                }
+            }
+        }
 
+        stage('Build the Image') {
+            steps {
+                echo 'Building the Docker image...'
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ./productservice"
+            }
+        }
+    }
 }
