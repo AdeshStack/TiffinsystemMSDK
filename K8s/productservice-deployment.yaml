@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userservice-deployment
+  name: productservice-deployment
 spec:
   replicas: 2
   selector:
@@ -13,7 +13,7 @@ spec:
         app: productservice
     spec:
       containers:
-        - name: userservice
+        - name: productservice
           image: adeshprime17/productservice25:0.0.1
           ports:
             - containerPort: 8082
