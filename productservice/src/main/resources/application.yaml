@@ -6,7 +6,7 @@ spring:
     name: productservice
 
   datasource:
-    url: jdbc:mysql://mysql:3306/product # use to connect mysql from container to mysql pod
+    url: jdbc:mysql://mysql-0.mysql:3306/product # use to connect mysql from container to mysql pod
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
