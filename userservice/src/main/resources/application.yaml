@@ -5,11 +5,11 @@ spring:
   application:
     name: userservice
 
-  datasource:
-    url: jdbc:mysql://mysql:3306/user
-    username: root
-    password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  # datasource:
+  #   url: jdbc:mysql://mysql:3306/user
+  #   username: root
+  #   password: password
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
