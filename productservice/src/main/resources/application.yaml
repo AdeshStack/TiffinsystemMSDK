@@ -6,15 +6,15 @@ spring:
     name: productservice
 
   # datasource:
-  #   url: jdbc:mysql://mysql:3306/product # use to connect mysql from container to mysql pod
+  #   url: jdbc:mysql://mysql:3306/user
   #   username: root
   #   password: password
   #   driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
-      show-sql: true
+      ddl-auto: update   # change to none if schema is already created
+    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
