@@ -18,7 +18,7 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 echo 'Building the project using Maven...'
-                dir('orderservice') {
+                dir('orderservice/orderservice') {
                     bat 'mvnw.cmd clean package -DskipTests'
                 }
             }
