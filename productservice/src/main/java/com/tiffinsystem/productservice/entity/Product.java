@@ -26,12 +26,15 @@ public class Product {
     private String description;
 
     private Double price;
+
     private Integer quantity;
 
     private String category;
+
     private String brand;
 
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
     private String status; // AVAILABLE, OUT_OF_STOCK, DISCONTINUED

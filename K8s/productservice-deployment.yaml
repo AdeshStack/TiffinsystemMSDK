@@ -17,3 +17,10 @@ spec:
           image: adeshprime17/productservice25:0.0.1
           ports:
             - containerPort: 8082
+          env:   #setting here to we can change the thing from here
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/product
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password  
