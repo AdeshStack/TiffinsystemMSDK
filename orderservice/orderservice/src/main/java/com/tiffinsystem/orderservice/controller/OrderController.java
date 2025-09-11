@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/order/")
+@RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class OrderController {
         return  new ResponseEntity<>(orderService.placeOrder(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("{orderId}")
+    @GetMapping("/{orderId}")
     ResponseEntity<OrderResponse> getByOrder(@PathVariable("orderId") Long orderId ){
 
         return new ResponseEntity<>(orderService.getByOrderId(orderId),HttpStatus.OK);
