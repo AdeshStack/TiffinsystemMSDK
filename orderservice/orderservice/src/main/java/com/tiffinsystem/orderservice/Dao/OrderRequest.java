@@ -2,8 +2,8 @@ package com.tiffinsystem.orderservice.Dao;
 
 import java.time.LocalDateTime;
 
-public record OrderRequest( Long user_id,
-                            Long product_id,
+public record OrderRequest( Long userId,
+                            Long productId,
                             Integer quantity,
                             Double price
                           ) {

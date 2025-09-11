@@ -37,6 +37,7 @@ data:
   init.sql: |
     CREATE DATABASE IF NOT EXISTS user;
     CREATE DATABASE IF NOT EXISTS product;
+    CREATE DATABASE IF NOT EXISTS order;
 ---
 # StatefulSet for MySQL
 apiVersion: apps/v1
