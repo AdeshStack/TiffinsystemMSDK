@@ -24,8 +24,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse placeOrder(OrderRequest request) {
 
         Order order = Order.builder()
-                .user_id(request.user_id())
-                .product_id(request.product_id())
+                .userId(request.userId())
+                .productId(request.productId())
                 .quantity(request.quantity())
                 .price(request.price())
                 .status(OrderStatus.CREATED)
@@ -62,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
         List<OrderResponse> response= orders.stream().map(
                 res-> new OrderResponse(
                 res.getId()
-                ,res.getUser_id()
-                ,res.getProduct_id(),
+                ,res.getUserId()
+                ,res.getProductId(),
                 res.getQuantity(),
                 res.getPrice(),
                 res.getStatus(),
@@ -98,8 +98,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderResponse mapToResponse(Order order) {
         return new OrderResponse(
                 order.getId(),
-                order.getUser_id(),
-                order.getProduct_id(),
+                order.getUserId(),
+                order.getProductId(),
                 order.getQuantity(),
                 order.getPrice(),
                 order.getStatus(),
