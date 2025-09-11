@@ -41,17 +41,17 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo 'Deploying to Kubernetes...'
-                withCredentials([file(credentialsId: 'kubeconfig-cred-id', variable: 'KUBECONFIG')]) {
-                    bat """
-                        kubectl --kubeconfig=%KUBECONFIG% set image deployment/productservice-deployment productservice=%DOCKER_IMAGE%
-                        kubectl --kubeconfig=%KUBECONFIG% rollout status deployment/productservice-deployment
-                    """
-                }
-            }
-        }
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         echo 'Deploying to Kubernetes...'
+        //         withCredentials([file(credentialsId: 'kubeconfig-cred-id', variable: 'KUBECONFIG')]) {
+        //             bat """
+        //                 kubectl --kubeconfig=%KUBECONFIG% set image deployment/productservice-deployment productservice=%DOCKER_IMAGE%
+        //                 kubectl --kubeconfig=%KUBECONFIG% rollout status deployment/productservice-deployment
+        //             """
+        //         }
+        //     }
+        // }
 
         stage('Deployment status') {
             steps {
