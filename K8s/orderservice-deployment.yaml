@@ -19,7 +19,7 @@ spec:
             - containerPort: 8083
           env:   #setting here to we can change the thing from here
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/orderdb
+              value: jdbc:mysql://mysql:3306/orderdatabase
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
