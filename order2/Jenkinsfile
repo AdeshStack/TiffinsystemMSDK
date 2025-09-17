@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'adeshprime17/orderservice256'
+        IMAGE_NAME = 'adeshprime17/orderservice252'
         IMAGE_TAG  = '0.0.1'
         DOCKER_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
     }
