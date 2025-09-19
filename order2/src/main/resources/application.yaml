@@ -9,7 +9,7 @@ spring:
 #     url: jdbc:mysql://localhost:3306/orderdb
 #     username: root
 #     password: password
-#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     driver-class-name: com.mysql.cj.jdbc.Driver  #This is the JDBC driver class provided by MySQL Connector/J (the official MySQL driver for Java).
 
   jpa:
     hibernate:
