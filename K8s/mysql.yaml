@@ -38,6 +38,7 @@ data:
     CREATE DATABASE IF NOT EXISTS user;
     CREATE DATABASE IF NOT EXISTS product;
     CREATE DATABASE IF NOT EXISTS orderdatabase;
+    CREATE DATABASE IF NOT EXISTS paymentdb;
 ---
 # StatefulSet for MySQL
 apiVersion: apps/v1

@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orderservice-deployment
+  name: paymentservice-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: orderservice
+      app: paymentservice
   template:
     metadata:
       labels:
-        app: orderservice
+        app: paymentservice
     spec:
       containers:
-        - name: orderservice
-          image: adeshprime17/orderservice252:0.0.1
+        - name: paymentservice
+          image: adeshprime17/paymentservice25:0.0.1
           ports:
-            - containerPort: 8084
+            - containerPort: 8085
           env:   #setting here to we can change the thing from here
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/orderdatabase
+              value: jdbc:mysql://mysql:3306/paymentdb
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
@@ -30,12 +30,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orderservice-service
+  name: paymentservice-service
 spec:
   selector:
-    app: orderservice
+    app: paymentservice
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8084
+      targetPort: 8085
   type: ClusterIP

@@ -2,6 +2,9 @@ package com.tiffinsystem.order2.service;
 
 
 
+import com.tiffinsystem.order2.ExternalService.FC.PaymentDao.PaymentRequest;
+import com.tiffinsystem.order2.ExternalService.FC.PaymentDao.PaymentResponse;
+import com.tiffinsystem.order2.ExternalService.FC.PaymentService;
 import com.tiffinsystem.order2.dao.OrderRequest;
 import com.tiffinsystem.order2.dao.OrderResponse;
 import com.tiffinsystem.order2.dao.OrderStatus;
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Autowired
+    private PaymentService service;
 
     @Autowired
     private OrderRepo repo;
@@ -33,7 +39,21 @@ public class OrderServiceImpl implements OrderService {
 
        Order save= this.repo.save(order);
 
-        return mapToResponse(save);
+       //call the payment service from here
+        PaymentRequest payment=new PaymentRequest(order.getUserId(), order.getProductId(), order.getPrice());
+
+        PaymentResponse response= service.makePayment(payment);
+
+        if(response.status().equals("SUCCESS")){
+
+            order.setStatus(OrderStatus.CONFIRMED);
+        }else {
+
+            order.setStatus(OrderStatus.CANCELLED);
+
+        }
+
+        return mapToResponse(repo.save(order));
     }
 
     @Override
