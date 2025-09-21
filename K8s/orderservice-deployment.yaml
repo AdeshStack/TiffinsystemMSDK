@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: orderservice
-          image: adeshprime17/orderservice252:0.0.4
+          image: adeshprime17/orderservice252:0.0.5
           ports:
             - containerPort: 8084
           env:   #setting here to we can change the thing from here

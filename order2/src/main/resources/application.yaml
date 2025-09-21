@@ -19,8 +19,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
 
-feign:
-  client:
-    config:
-      payment-service:
-        url: http://paymentservice-service
+#feign:
+#  client:
+#    config:
+#      payment-service:
+#        url: http://paymentservice-service

@@ -4,14 +4,15 @@ package com.tiffinsystem.order2.service;
 
 import com.tiffinsystem.order2.ExternalService.FC.PaymentDao.PaymentRequest;
 import com.tiffinsystem.order2.ExternalService.FC.PaymentDao.PaymentResponse;
-import com.tiffinsystem.order2.ExternalService.FC.PaymentService;
 import com.tiffinsystem.order2.dao.OrderRequest;
 import com.tiffinsystem.order2.dao.OrderResponse;
 import com.tiffinsystem.order2.dao.OrderStatus;
 import com.tiffinsystem.order2.entity.Order;
 import com.tiffinsystem.order2.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private PaymentService service;
+    private RestTemplate restTemplate;
 
     @Autowired
     private OrderRepo repo;
@@ -39,19 +40,19 @@ public class OrderServiceImpl implements OrderService {
 
        Order save= this.repo.save(order);
 
-       //call the payment service from here
-        PaymentRequest payment=new PaymentRequest(order.getUserId(), order.getProductId(), order.getPrice());
+        // Call payment-service in Kubernetes
+        String paymentUrl = "http://paymentservice-service/api/payments/click";
 
-        PaymentResponse response= service.makePayment(payment);
+        PaymentRequest payment = new PaymentRequest(order.getUserId(), order.getProductId(), order.getPrice());
 
-        if(response.status().equals("SUCCESS")){
+        ResponseEntity<PaymentResponse> response =
+                restTemplate.postForEntity(paymentUrl, payment, PaymentResponse.class);
 
+        if (response.getBody() != null && "SUCCESS".equals(response.getBody().status())) {
             System.out.println("PAYMENT SERVICE CALLED BY ORDER SERVICE");
             order.setStatus(OrderStatus.CONFIRMED);
-        }else {
-
+        } else {
             order.setStatus(OrderStatus.CANCELLED);
-
         }
 
         return mapToResponse(repo.save(order));
