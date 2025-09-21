@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'adeshprime17/orderservice252'
-        IMAGE_TAG  = '0.0.2'
+        IMAGE_TAG  = '0.0.3'
         DOCKER_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
