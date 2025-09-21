@@ -16,7 +16,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping
+    @PostMapping("/click")
     public ResponseEntity<PaymentResponse> makePayment(@RequestBody PaymentRequest request) {
         return ResponseEntity.ok(paymentService.makePayment(request));
     }

@@ -46,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
         if(response.status().equals("SUCCESS")){
 
+            System.out.println("PAYMENT SERVICE CALLED BY ORDER SERVICE");
             order.setStatus(OrderStatus.CONFIRMED);
         }else {
 
