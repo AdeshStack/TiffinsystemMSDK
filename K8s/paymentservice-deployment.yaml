@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: paymentservice
-          image: adeshprime17/paymentservice25:0.0.1
+          image: adeshprime17/paymentservice25:0.0.2
           ports:
             - containerPort: 8085
           env:   #setting here to we can change the thing from here
