@@ -23,4 +23,4 @@ feign:
   client:
     config:
       payment-service:
-        url: http://paymentservice-service:8085
+        url: http://paymentservice-service
