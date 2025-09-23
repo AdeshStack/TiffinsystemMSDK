@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
        Order save= this.repo.save(order);
 
         // Call payment-service in Kubernetes
-        String paymentUrl = "http://paymentservice-service/api/payments/click";
+      String paymentUrl = "http://paymentservice-service/api/payments/click";
 
       PaymentRequest payment = new PaymentRequest(order.getId(), order.getUserId(), order.getPrice());
 
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             order.setStatus(OrderStatus.CANCELLED);
         }
-
+        
         return mapToResponse(repo.save(order));
     }
 
