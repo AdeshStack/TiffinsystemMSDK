@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         // Call payment-service in Kubernetes
         String paymentUrl = "http://paymentservice-service/api/payments/click";
 
-        PaymentRequest payment = new PaymentRequest(order.getUserId(), order.getProductId(), order.getPrice());
+      PaymentRequest payment = new PaymentRequest(order.getId(), order.getUserId(), order.getPrice());
 
         ResponseEntity<PaymentResponse> response =
                 restTemplate.postForEntity(paymentUrl, payment, PaymentResponse.class);
