@@ -23,7 +23,11 @@ public class PaymentServiceImpl implements PaymentService {
                 .orderId(request.orderId())
                 .userId(request.userId())
                 .amount(request.amount())
-                .status(Math.random() > 0.2 ? PaymentStatus.SUCCESS : PaymentStatus.FAILED) // 80% success chance
+               .status(Math.random() > 0.2 ? PaymentStatus.SUCCESS : PaymentStatus.FAILED) // 80% success chance
+//
+//                .status(PaymentStatus.SUCCESS)
+
+
                 .build();
 
         Payment saved = repo.save(payment);

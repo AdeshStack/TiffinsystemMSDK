@@ -4,6 +4,9 @@ package com.tiffinsystem.order2.controller;
 import com.tiffinsystem.order2.dao.OrderRequest;
 import com.tiffinsystem.order2.dao.OrderResponse;
 import com.tiffinsystem.order2.dao.OrderStatus;
+import com.tiffinsystem.order2.dao.OrderStatusUpdateRequest;
+import com.tiffinsystem.order2.entity.Order;
+import com.tiffinsystem.order2.repository.OrderRepo;
 import com.tiffinsystem.order2.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
+
+    @Autowired
+    private OrderRepo orderRepo;
 
     @Autowired
     private OrderService orderService;
@@ -49,5 +55,19 @@ public class OrderController {
     ResponseEntity<String> cancelOrder(@PathVariable("orderId") Long orderId){
         orderService.cancelOrder(orderId);
         return new ResponseEntity<>("Canceled the Order",HttpStatus.OK);
+    }
+
+
+    @PostMapping("/updateStatus")
+    public ResponseEntity<Void> updateStatusOrder(@RequestBody OrderStatusUpdateRequest request){
+
+        System.out.println("calling order service from delivery");
+        Order order = orderRepo.findById(request.orderId()).orElseThrow(()->new RuntimeException("Order Id not present "));
+
+       order.setStatus(request.status());
+
+       this.orderRepo.save(order);
+
+        return ResponseEntity.ok().build();
     }
 }

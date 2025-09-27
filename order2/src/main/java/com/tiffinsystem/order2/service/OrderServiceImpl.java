@@ -10,6 +10,7 @@ import com.tiffinsystem.order2.dao.OrderStatus;
 import com.tiffinsystem.order2.entity.Order;
 import com.tiffinsystem.order2.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,11 +22,15 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    @Value("${payment.service.url}")
+    private String paymentUrl;
+
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private OrderRepo repo;
+
 
     @Override
     public OrderResponse placeOrder(OrderRequest request) {
@@ -38,25 +43,36 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.CREATED)
                 .build();
 
-       Order save= this.repo.save(order);
+        Order savedOrder = repo.save(order);
 
-        // Call payment-service in Kubernetes
-        String paymentUrl = "http://paymentservice-service/api/payments/click";
+        // Build payment request
+        PaymentRequest payment = new PaymentRequest(savedOrder.getId(), savedOrder.getUserId(), savedOrder.getPrice());
 
-        PaymentRequest payment = new PaymentRequest(order.getUserId(), order.getProductId(), order.getPrice());
+        try {
+            ResponseEntity<PaymentResponse> response =
+                    restTemplate.postForEntity(paymentUrl, payment, PaymentResponse.class);
 
-        ResponseEntity<PaymentResponse> response =
-                restTemplate.postForEntity(paymentUrl, payment, PaymentResponse.class);
+            if (response != null && response.getBody() != null) {
+                System.out.println("Payment service called. Payment ID = " + response.getBody().paymentId());
 
-        if (response.getBody() != null && "SUCCESS".equals(response.getBody().status())) {
-            System.out.println("PAYMENT SERVICE CALLED BY ORDER SERVICE");
-            order.setStatus(OrderStatus.CONFIRMED);
-        } else {
-            order.setStatus(OrderStatus.CANCELLED);
+                if ("SUCCESS".equalsIgnoreCase(String.valueOf(response.getBody().status()))) {
+                    savedOrder.setStatus(OrderStatus.CONFIRMED);
+                } else {
+                    savedOrder.setStatus(OrderStatus.CANCELLED);
+                }
+            } else {
+                savedOrder.setStatus(OrderStatus.CANCELLED);
+            }
+
+        } catch (Exception e) {
+            // in case Payment Service is down
+            System.out.println("Error calling payment service: " + e.getMessage());
+            savedOrder.setStatus(OrderStatus.CANCELLED);
         }
 
-        return mapToResponse(repo.save(order));
+        return mapToResponse(repo.save(savedOrder));
     }
+
 
     @Override
     public OrderResponse getByOrderId(Long orderId) {

@@ -5,11 +5,11 @@ spring:
   application:
     name: paymentservice
 
-#  datasource:
-#       url: jdbc:mysql://localhost:3306/paymentdb
-#       username: root
-#       password: password
-#       driver-class-name: com.mysql.cj.jdbc.Driver  #This is the JDBC driver class provided by MySQL Connector/J (the official MySQL driver for Java).
+  datasource:
+       url: jdbc:mysql://localhost:3306/paymentdb
+       username: root
+       password: password
+       driver-class-name: com.mysql.cj.jdbc.Driver  #This is the JDBC driver class provided by MySQL Connector/J (the official MySQL driver for Java).
 
   jpa:
     hibernate:

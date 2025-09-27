@@ -1,12 +1,12 @@
 server:
-  port: 8084
+  port: 8086
 
 spring:
   application:
-    name: orderservice
+    name: deliveryservice
 
 #  datasource:
-#     url: jdbc:mysql://localhost:3306/orderdb
+#     url: jdbc:mysql://localhost:3306/deliverydb
 #     username: root
 #     password: password
 #     driver-class-name: com.mysql.cj.jdbc.Driver  #This is the JDBC driver class provided by MySQL Connector/J (the official MySQL driver for Java).
@@ -19,9 +19,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
 
-payment:
+
+#using this for changing the status of the order
+order:
   service:
-    url: http://paymentservice-service/api/payments/click
+    url: http://orderservice-service/api/order/updateStatus
 
 #feign:
 #  client:
